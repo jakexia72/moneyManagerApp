@@ -38,7 +38,7 @@ function timeOfDay(){
 // var username = db.ref('users/' + userId + '/name');
 db.collection("users").doc(userId).get().then((snapshot) => {
   const uname = snapshot.data().name
-  $("#greeting").html("Good " + timeOfDay() + " " + uname.substr(0, uname.indexOf(' ')));
+  $("#greeting").html("Good " + timeOfDay() + ", " + uname.substr(0, uname.indexOf(' ')));
 });
 
 
