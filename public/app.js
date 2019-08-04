@@ -14,6 +14,15 @@ firebase.initializeApp(config);
 
 const db = firebase.firestore();
 
+function makeCategoryBadge(category){
+  let badge = document.createElement('div');
+  badge.classList.add('badge');
+  console.log(category);
+  console.log(categoryColors[category]);
+  $(badge).css('background',categoryColors[category]);
+  return badge;
+}
+
 function makeLatestSpendingEntree(doc){
   let row = document.createElement('tr');
     let category = document.createElement('td');
@@ -24,15 +33,19 @@ function makeLatestSpendingEntree(doc){
 
 
 
-  let categoryBadge = document.createElement('div');
+  let categoryBadge = makeCategoryBadge(doc.data().expenseType);
+  category.appendChild(categoryBadge);
+  $('')
   // // COMBAK: tegoryBadge.classList.add('badge');
 
   row.setAttribute('data-id', doc.id);
-  name.textContent = doc.data().expenseName;
-  date.textContent = doc.data().expenseDate;
+  name.textContent = doc.data().expenseLocation;
+  date.textContent = getNiceUIDateFormat(doc.data().expenseDate.toDate());
+  date.classList.add('grey');
   nameAndDate.appendChild(name);
   nameAndDate.appendChild(date);
-  money.textContent = doc.data().expenseAmount;
+  money.textContent = '$' + doc.data().expenseAmount.toFixed(2);
+  money.classList.add('moneyCol');
 
   row.appendChild(category);
   row.appendChild(nameAndDate);
