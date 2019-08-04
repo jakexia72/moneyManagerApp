@@ -13,18 +13,33 @@ var config = {
 firebase.initializeApp(config);
 
 const db = firebase.firestore();
-// var username = db.ref('users/' + userId + '/name');
-//
-// // var userId = "PDb2N4jbQKyk0GDemeBL";
-// // var userPath = "/users"/ + userId + "/";
-//
-// // db.ref('/users/' + userId).once('value').then(function(snapshot) {
-// //   var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
-// //   $("greeting").html = username;
-// // });
-//
-// $("greeting").html = username;
 
+function makeLatestSpendingEntree(doc){
+  let row = document.createElement('tr');
+    let category = document.createElement('td');
+    let nameAndDate = document.createElement('td');
+      let name = document.createElement('h3');
+      let date = document.createElement('p');
+    let money = document.createElement('td');
+
+
+
+  let categoryBadge = document.createElement('div');
+  // // COMBAK: tegoryBadge.classList.add('badge');
+
+  row.setAttribute('data-id', doc.id);
+  name.textContent = doc.data().expenseName;
+  date.textContent = doc.data().expenseDate;
+  nameAndDate.appendChild(name);
+  nameAndDate.appendChild(date);
+  money.textContent = doc.data().expenseAmount;
+
+  row.appendChild(category);
+  row.appendChild(nameAndDate);
+  row.appendChild(money);
+  $('#spendingList').append(row);
+
+}
 
 
 //var userExpenses = firebase.database().ref(userPath + "expenses" + )
@@ -46,6 +61,6 @@ db.collection("users").doc(userId).get().then((snapshot) => {
 
 db.collection("users").doc(userId).collection("expenses").get().then((snapshot) => {
     snapshot.docs.forEach((doc) => {
-      console.log(doc.data());
+      makeLatestSpendingEntree(doc);
     })
 });
