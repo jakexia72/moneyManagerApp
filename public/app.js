@@ -17,18 +17,6 @@
 //var userExpenses = firebase.database().ref(userPath + "expenses" + )
 var userId = "PDb2N4jbQKyk0GDemeBL";
 
-var today = new Date();
-var time = today.getHours();
-
-function timeOfDay(){
-  if(time < 12){
-    return "Morning";
-  } else if (time < 17){
-    return "Afternoon";
-  } else if (time < 24){
-    return "Evening";
-  }
-}
 // var userPath = "/users"/ + userId + "/";
 
 // db.ref('/users/' + userId).once('value').then(function(snapshot) {
