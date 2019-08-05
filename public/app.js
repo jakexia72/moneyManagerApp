@@ -14,6 +14,15 @@ firebase.initializeApp(config);
 
 const db = firebase.firestore();
 
+
+var categoryColors = {};
+db.collection("expenseTypes").get().then((snapshot)=>{
+  snapshot.docs.forEach((expenseType)=>{
+    categoryColors[expenseType.data().typeName] = '#' + expenseType.data().typeColor;
+    // console.log(categoryColors[expenseType.data().typeName]);
+  })
+});
+
 function makeCategoryBadge(category){
   let badge = document.createElement('div');
   badge.classList.add('badge');
@@ -35,7 +44,7 @@ function makeLatestSpendingEntree(doc){
 
   let categoryBadge = makeCategoryBadge(doc.data().expenseType);
   category.appendChild(categoryBadge);
-  $('')
+  // $('')
   // // COMBAK: tegoryBadge.classList.add('badge');
 
   row.setAttribute('data-id', doc.id);
@@ -65,6 +74,9 @@ var userId = "PDb2N4jbQKyk0GDemeBL";
 //   $("greeting").html = username;
 // });
 // var username = db.ref('users/' + userId + '/name');
+
+
+
 db.collection("users").doc(userId).get().then((snapshot) => {
   const uname = snapshot.data().name
   $("#greeting").html("Good " + timeOfDay() + ", " + uname.substr(0, uname.indexOf(' ')));
