@@ -14,6 +14,12 @@ firebase.initializeApp(config);
 
 const db = firebase.firestore();
 
+// const form = document.querySelector('#add-expense-form');
+
+
+//var userExpenses = firebase.database().ref(userPath + "expenses" + )
+var userId = "PDb2N4jbQKyk0GDemeBL";
+
 
 var categoryColors = {};
 db.collection("expenseTypes").get().then((snapshot)=>{
@@ -49,7 +55,7 @@ function makeLatestSpendingEntree(doc){
 
   row.setAttribute('data-id', doc.id);
   name.textContent = doc.data().expenseLocation;
-  date.textContent = getNiceUIDateFormat(doc.data().expenseDate.toDate());
+  date.textContent = getNiceUIDateFormat(doc.data().expenseDate.toDate()) || "";
   date.classList.add('grey');
   nameAndDate.appendChild(name);
   nameAndDate.appendChild(date);
@@ -63,17 +69,23 @@ function makeLatestSpendingEntree(doc){
 
 }
 
+$('#add-expense-form').submit(function(e){
 
-//var userExpenses = firebase.database().ref(userPath + "expenses" + )
-var userId = "PDb2N4jbQKyk0GDemeBL";
+  e.preventDefault();
+  var expenseDateVar = new Date();
+    console.log("GUCK");
+    console.log("val is: " + $('#add-expenseName').val());
+  db.collection("users").doc(userId).collection("expenses").add({
 
-// var userPath = "/users"/ + userId + "/";
+    expenseAmount: parseInt($('#add-expenseAmount').val()),
+    expenseName: $('#add-expenseName').val(),
+    expenseLocation: $('#add-expenseLocation').val(),
+    expenseType: $('#add-expenseType').val(),
+    expenseDate: expenseDateVar
 
-// db.ref('/users/' + userId).once('value').then(function(snapshot) {
-//   var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
-//   $("greeting").html = username;
-// });
-// var username = db.ref('users/' + userId + '/name');
+  });
+
+});
 
 
 
