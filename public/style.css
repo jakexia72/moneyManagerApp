@@ -3,6 +3,7 @@ body,html{
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
@@ -27,10 +28,18 @@ h3{
 
 }
 
+.panelContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
 .panel{
   border-radius: 20px;
-  box-shadow:10px 10px 50px grey;
+  box-shadow:5px 5px 15px lightgrey;
   padding: 1em;
+  margin: 10px;
 }
 
 .badge{

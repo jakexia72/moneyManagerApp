@@ -19,13 +19,23 @@
 </head>
 
 <body>
-  <div class = "container">
+  <div class = "mainContainer">
     <h1 id = "greeting"></h1>
-    <div class = "panel">
-      <h5>Latest Spending</h3>
-      <table id = "spendingList">
-      </table>
+    <div class = "panelContainer">
+      <div class = "panel">
+        <h5>Latest Spending</h3>
+        <table id = "spendingList">
+        </table>
+      </div>
+      <div class = "panel">
+        <h5>Add Expense</h3>
+          <form id = "add-expense-form">
+            <input type = "number" name = "expenseAmount" placeholder="$0.00"/>
+            
+          </form>
+      </div>
     </div>
+
   </div>
 
 </body>
