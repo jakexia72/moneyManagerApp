@@ -74,17 +74,17 @@ $('#add-expense-form').submit(function(e){
   e.preventDefault();
   var expenseDateVar = new Date();
     console.log("GUCK");
-    console.log("val is: " + $('#add-expenseName').val());
-  db.collection("users").doc(userId).collection("expenses").add({
+    console.log("expnse is: " + $('#add-expenseAmount'));
+    console.log("expnse prsed is: " + parseFloat($('#add-expenseAmount').val()));
 
-    expenseAmount: parseInt($('#add-expenseAmount').val()),
+  db.collection("users").doc(userId).collection("expenses").add({
+    expenseAmount: parseFloat($('#add-expenseAmount').val()),
     expenseName: $('#add-expenseName').val(),
     expenseLocation: $('#add-expenseLocation').val(),
     expenseType: $('#add-expenseType').val(),
     expenseDate: expenseDateVar
-
   });
-
+   $('#add-expense-form').trigger('reset');
 });
 
 
