@@ -3,7 +3,7 @@ var today = new Date();
 var time = today.getHours();
 
 var monthDictionary = ["January","Febuary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-// 
+//
 // var categoryColors = {
 //   "Food & Drinks" : "#FF781A",
 //   "Entertainment" : "#FF4294",
@@ -42,5 +42,6 @@ function getDateAsString(date){
 }
 
 function getNiceUIDateFormat(date){
+  
   return getMonthAsString(date) + " " + getDateAsString(date);
 }

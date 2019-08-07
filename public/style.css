@@ -67,7 +67,16 @@ th, td {
   font-size: 1.5em;
 }
 
+.chevron{
+  vertical-align: top;
+  text-align: right;
+  color: lightgrey;
+  padding-top: 15px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
 .allSpending{
   max-height: 350px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
