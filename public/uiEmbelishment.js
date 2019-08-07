@@ -23,11 +23,13 @@ function timeOfDay(){
   }
 }
 
+//the month 0 returns January
 function getMonthAsString(date){
   var month = date.getMonth();
   return monthDictionary[month];
 }
 
+//returns a date with along with ordinal indicator
 function getDateAsString(date){
   var day = date.getDate();
   if(day == 1){
@@ -42,6 +44,13 @@ function getDateAsString(date){
 }
 
 function getNiceUIDateFormat(date){
-  
-  return getMonthAsString(date) + " " + getDateAsString(date);
+  if(isToday(date)){
+    return "Earlier Today"
+  } else {
+    return getMonthAsString(date) + " " + getDateAsString(date);
+  }
+}
+
+function isToday(someDay){
+  return someDay.getDate() == today.getDate() && someDay.getMonth() == today.getMonth() && someDay.getFullYear() == today.getFullYear();
 }
