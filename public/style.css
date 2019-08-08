@@ -6,6 +6,7 @@ body,html{
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  background: #d2c29d;
 }
 
 h5{
@@ -28,18 +29,30 @@ h3{
 
 }
 
-.panelContainer{
+.panelContainer-row{
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
 }
 
+.panelContainer-col{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
 .panel{
+  background: white;
   border-radius: 20px;
-  box-shadow:5px 5px 15px lightgrey;
+  box-shadow:5px 5px 15px rgba(0,0,0,0.2);
   padding: 1em;
   margin: 10px;
+}
+
+.midPanel{
+  max-width: 300px;
 }
 
 .badge{

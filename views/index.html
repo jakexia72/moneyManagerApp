@@ -21,7 +21,7 @@
 <body>
   <div class = "mainContainer">
     <h1 id = "greeting"></h1>
-    <div class = "panelContainer">
+    <div class = "panelContainer-row">
       <div class = "panel">
         <h5>Latest Spending</h3>
           <div class = "allSpending">
@@ -29,28 +29,39 @@
             </table>
           </div>
       </div>
-      <div class = "panel">
-        <h5>Add Expense</h3>
+      <div class = "panelContainer-col midPanel">
+        <div class = "panel">
+          <h5>Add Expense</h3>
 
-          <form id = "add-expense-form">
+            <form id = "add-expense-form">
 
-            <input type = "number" step="0.01" id = "add-expenseAmount" placeholder="$0.00"/>
-            <input type = "text" id = "add-expenseName" placeholder="Kraby Patty" />
-            <input type = "text" id = "add-expenseLocation" placeholder="Crusty Krabs" />
+              <input type = "number" step="0.01" id = "add-expenseAmount" placeholder="$0.00"/>
+              <input type = "text" id = "add-expenseName" placeholder="Kraby Patty" />
+              <input type = "text" id = "add-expenseLocation" placeholder="Crusty Krabs" />
 
-            <select id= "add-expenseType">
-              <option value="Food & Drinks">Food & Drinks</option>
-              <option value="Shopping">Shopping</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Groceries">Groceries</option>
-              <option value="Essentials">Essentials</option>
-              <option value="Misc">Misc</option>
-            </select>
+              <select id= "add-expenseType">
+                <option value="Food & Drinks">Food & Drinks</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Essentials">Essentials</option>
+                <option value="Misc">Misc</option>
+              </select>
 
-            <button>Add Expense</button>
+              <button>Add Expense</button>
 
-          </form>
+            </form>
+        </div>
+        <div class = "panel">
+          <h5>Add Expense Category</h3>
+            <form id = "add-expenseType-form">
+              <input type = "text" id = "add-expenseTypeName" placeholder="Eating Out" />
+              <input type = "color" id = "add-expenseTypeColor"/>
+              <button>Add Category</button>
+            </form>
+        </div>
       </div>
+
     </div>
 
   </div>

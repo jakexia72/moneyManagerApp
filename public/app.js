@@ -77,8 +77,8 @@ function makeLatestSpendingEntree(doc){
 
 }
 
+//Add a new expense to db
 $('#add-expense-form').submit(function(e){
-
   e.preventDefault();
   var expenseDateVar = new Date();
     console.log("GUCK");
@@ -95,6 +95,14 @@ $('#add-expense-form').submit(function(e){
    $('#add-expense-form').trigger('reset');
 });
 
+//Add a new user-defined expenseType
+$('#add-expenseType-form').submit(function(e){
+  e.preventDefault();
+  db.collection("users").doc(userId).collection("expenseTypes").add({
+    typeName: $('#add-expenseTypeName').val(),
+    typeColor: $('#add-expenseTypeColor').val()
+  });
+});
 
 //Creating the greeting
 db.collection("users").doc(userId).get().then((snapshot) => {
@@ -119,5 +127,5 @@ db.collection("users").doc(userId).collection("expenses").orderBy("expenseDate")
       console.log("remove was called");
       $('[data-id=' + change.doc.id + ']').remove();
     }
-  })
-})
+  });
+});
