@@ -144,7 +144,12 @@ db.collection("users").doc(userId).collection("expenses").where("expenseDate", "
 db.collection("users").doc(userId).collection("expenses").where("expenseDate", ">", dayStart).onSnapshot(snapshot =>{
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
-    totalDailySpending += change.doc.data().expenseAmount;
+    if (change.type == 'added'){
+      totalDailySpending += change.doc.data().expenseAmount;
+    } else if (change.type == 'removed'){
+      totalDailySpending -= change.doc.data().expenseAmount;
+    }
+
   });
   console.log("TOTAL: " + totalDailySpending);
   $('#spending-today').html("$" + totalDailySpending);
