@@ -6,7 +6,7 @@ body,html{
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background: #d2c29d;
+  background: linear-gradient(to bottom right, #9bc5c3, #616161);
 }
 
 h5{
