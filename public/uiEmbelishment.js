@@ -2,16 +2,13 @@
 var today = new Date();
 var time = today.getHours();
 
+var dayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+console.log(dayStart);
+
+var yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-1, 0, 0, 0, 0);
+console.log(yesterday);
+
 var monthDictionary = ["January","Febuary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-//
-// var categoryColors = {
-//   "Food & Drinks" : "#FF781A",
-//   "Entertainment" : "#FF4294",
-//   "Essenntials" : "#F8BC47",
-//   "Shopping" : "#009CDC",
-//   "Groceries" : "#00D374",
-//   "Misc" : "#707A88"
-// }
 
 function timeOfDay(){
   if(time < 12){
@@ -45,7 +42,9 @@ function getDateAsString(date){
 
 function getNiceUIDateFormat(date){
   if(isToday(date)){
-    return "Earlier Today"
+    return "Earlier Today";
+  } else if (date.getTime() > yesterday){
+    return "Yesterday";
   } else {
     return getMonthAsString(date) + " " + getDateAsString(date);
   }

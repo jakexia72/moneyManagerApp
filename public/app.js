@@ -52,7 +52,7 @@ function makeLatestSpendingEntree(doc){
 
   //COL 2
   name.textContent = doc.data().expenseLocation;
-  date.textContent = getNiceUIDateFormat(doc.data().expenseDate.toDate()) || "";
+  date.textContent = getNiceUIDateFormat(doc.data().expenseDate.toDate());
   date.classList.add('grey');
   nameAndDate.appendChild(name);
   nameAndDate.appendChild(date);
@@ -115,7 +115,45 @@ db.collection("users").doc(userId).get().then((snapshot) => {
 //     snapshot.docs.forEach((doc) => {
 //       makeLatestSpendingEntree(doc);
 //     })
+
+//
+
 // });
+var totalDailySpending = 0;
+var totalYesterSpending = 0;
+// console.log(typeof yesterday);
+
+function fromYesterday(){
+  let delta = totalDailySpending - totalYesterSpending;
+  console.log(delta);
+  if (delta > 0){
+    return ("+$" + delta +  " more <br> than yesterday");
+  } else {
+    return ("-$" + Math.abs(delta) + " less <br> than yesterday")
+  }
+}
+
+db.collection("users").doc(userId).collection("expenses").where("expenseDate", "<", dayStart).where("expenseDate",">",yesterday).onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    totalYesterSpending += change.doc.data().expenseAmount;
+  });
+  console.log("TOTAL: " + totalYesterSpending);
+});
+
+db.collection("users").doc(userId).collection("expenses").where("expenseDate", ">", dayStart).onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    totalDailySpending += change.doc.data().expenseAmount;
+  });
+  console.log("TOTAL: " + totalDailySpending);
+  $('#spending-today').html("$" + totalDailySpending);
+  let delta = totalYesterSpending - totalDailySpending;
+  $('#average-comparison-today').html(fromYesterday());
+});
+
+
+
 
 //real-time listener
 db.collection("users").doc(userId).collection("expenses").orderBy("expenseDate").onSnapshot(snapshot => {
