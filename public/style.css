@@ -21,12 +21,26 @@ h3{
   margin: 0;
 }
 
+button{
+  border: none;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
 .grey{
   color: grey;
 }
 
 .container{
 
+}
+
+.header-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .panelContainer-row{
@@ -92,4 +106,14 @@ th, td {
 .allSpending{
   max-height: 350px;
   overflow-y: scroll;
+}
+
+.add-btn{
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  background-color: darkgrey;
+  border-radius: 100px;
 }

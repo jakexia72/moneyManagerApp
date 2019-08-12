@@ -7,6 +7,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="/uiEmbelishment.js" type = "text/javascript"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
@@ -14,7 +15,9 @@
   <!-- Add Firebase products that you want to use -->
   <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-firestore.js"></script>
-
+  <script src = "/uiBuilders.js" type = "text/javascript"></script>
+  <script src = "/uiInteractions.js" type = "text/javascript"></script>
+  <script src="/app.js" type="text/javascript"></script>
   <title></title>
 </head>
 
@@ -27,7 +30,7 @@
           <div class = "spending-today">
             <h1 id = "spending-today"></h1>
             <h5>Spent Today</h5>
-            <p id = "average-comparison-today"></p>
+            <p id = "average-comparison-today" class = "grey"></p>
           </div>
         </div>
         <div class = "panel">
@@ -54,12 +57,6 @@
               <input type = "text" id = "add-expenseLocation" placeholder="Crusty Krabs" />
 
               <select id= "add-expenseType">
-                <option value="Food & Drinks">Food & Drinks</option>
-                <option value="Shopping">Shopping</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Groceries">Groceries</option>
-                <option value="Essentials">Essentials</option>
-                <option value="Misc">Misc</option>
               </select>
 
               <button>Add Expense</button>
@@ -67,10 +64,22 @@
             </form>
         </div>
         <div class = "panel">
-          <h5>Add Expense Category</h3>
-            <form id = "add-expenseType-form">
+          <div class = "header-row">
+            <h5>Categories</h3>
+            <button data-id = "categories-add-closed" id = "categories-add" class = "add-btn">+</button>
+          </div>
+
+            <form id = "add-expenseType-form" style="display:none;">
               <input type = "text" id = "add-expenseTypeName" placeholder="Eating Out" />
               <input type = "color" id = "add-expenseTypeColor"/>
+              <select onchange="checkHasBudget(this.value)" id = "add-expenseTypeBudgetPeriod">
+                <option value = "trackOnly">track only</option>
+                <option value = "noRenew">does not renew</option>
+                <option value = "weekly">renews weekly</option>
+                <option value = "monthly">renews monthly</option>
+                <option value = "yearly">renews yearly</option>
+              </select>
+              <input style ="display:none;" type = "text" step="0.01" id = "add-expenseTypeBudget" placeholder="80$" />
               <button>Add Category</button>
             </form>
         </div>
@@ -80,7 +89,7 @@
     </div>
 
   </div>
-  <script src="/app.js" type="text/javascript"></script>
+
 
 </body>
 

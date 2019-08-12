@@ -16,75 +16,20 @@ const userId = "PDb2N4jbQKyk0GDemeBL";
 
 //Creating the array of category colors
 var categoryColors = {};
-db.collection("expenseTypes").get().then((snapshot)=>{
+db.collection("users").doc(userId).collection("expenseTypes").get().then((snapshot)=>{
   snapshot.docs.forEach((expenseType)=>{
-    categoryColors[expenseType.data().typeName] = '#' + expenseType.data().typeColor;
+    categoryColors[expenseType.data().typeName] =  expenseType.data().typeColor;
   })
 });
 
-//make the dot that represents the category of spending
-function makeCategoryBadge(category){
-  let badge = document.createElement('div');
-  badge.classList.add('badge');
-  console.log(category);
-  console.log(categoryColors[category]);
-  $(badge).css('background',categoryColors[category]);
-  return badge;
-}
 
-//make the entree row in the table of expenses
-function makeLatestSpendingEntree(doc){
-  let row = document.createElement('tr');
-    let category = document.createElement('td');
-    let nameAndDate = document.createElement('td');
-      let name = document.createElement('h3');
-      let date = document.createElement('p');
-    let money = document.createElement('td');
-    let chevron = document.createElement('td');
-
-  //set the row id to the doc id
-  row.setAttribute('data-id', doc.id);
-
-  //COL 1
-  let categoryBadge = makeCategoryBadge(doc.data().expenseType);
-  category.appendChild(categoryBadge);
-
-
-  //COL 2
-  name.textContent = doc.data().expenseLocation;
-  date.textContent = getNiceUIDateFormat(doc.data().expenseDate.toDate());
-  date.classList.add('grey');
-  nameAndDate.appendChild(name);
-  nameAndDate.appendChild(date);
-
-  //COL 3
-  money.textContent = '$' + doc.data().expenseAmount.toFixed(2);
-  money.classList.add('moneyCol');
-
-  //COL 4
-  chevron.classList.add('grey');
-  chevron.classList.add('chevron');
-  chevron.textContent = '〉';
-
-  //Append to row
-  row.appendChild(category);
-  row.appendChild(nameAndDate);
-  row.appendChild(money);
-  row.appendChild(chevron);
-
-  //Append row to list
-  $('#spendingList').prepend(row);
-
-}
 
 //Add a new expense to db
 $('#add-expense-form').submit(function(e){
   e.preventDefault();
   var expenseDateVar = new Date();
-    console.log("GUCK");
-    console.log("expnse is: " + $('#add-expenseAmount'));
-    console.log("expnse prsed is: " + parseFloat($('#add-expenseAmount').val()));
-
+    // console.log("expnse is: " + $('#add-expenseAmount'));
+    // console.log("expnse prsed is: " + parseFloat($('#add-expenseAmount').val()));
   db.collection("users").doc(userId).collection("expenses").add({
     expenseAmount: parseFloat($('#add-expenseAmount').val()),
     expenseName: $('#add-expenseName').val(),
@@ -100,8 +45,11 @@ $('#add-expenseType-form').submit(function(e){
   e.preventDefault();
   db.collection("users").doc(userId).collection("expenseTypes").add({
     typeName: $('#add-expenseTypeName').val(),
-    typeColor: $('#add-expenseTypeColor').val()
+    typeColor: $('#add-expenseTypeColor').val(),
+    budgetPeriod: $('#add-expenseTypeBudgetPeriod').val(),
+    budget: $('#add-expenseTypeBudget').val()
   });
+  $('#add-expenseType-form').trigger('reset');
 });
 
 //Creating the greeting
@@ -128,10 +76,25 @@ function fromYesterday(){
   console.log(delta);
   if (delta > 0){
     return ("+$" + delta +  " more <br> than yesterday");
-  } else {
+  } else if (delta < 0){
     return ("-$" + Math.abs(delta) + " less <br> than yesterday")
+  } else {
+    return ("you spent this amount yesterday too");
   }
 }
+
+db.collection("users").doc(userId).collection("expenseTypes").onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if(change.type == 'added'){
+      makeExpenseCategorySelectOption(change.doc);
+      categoryColors[change.doc.data().typeName] = change.doc.data().typeColor;
+    } else if (change.type == 'removed'){
+      console.log("remove was called");
+      $('[data-id=' + change.doc.id + ']').remove();
+    }
+  });
+});
 
 db.collection("users").doc(userId).collection("expenses").where("expenseDate", "<", dayStart).where("expenseDate",">",yesterday).onSnapshot(snapshot =>{
   let changes = snapshot.docChanges();
