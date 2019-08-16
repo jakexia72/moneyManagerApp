@@ -60,3 +60,29 @@ function makeLatestSpendingEntree(doc){
   //Append row to list
   $('#spendingList').prepend(row);
 }
+
+function makeCharts(){
+  var ctx = document.getElementById('spendingBreakdown-chart').getContext('2d');
+  var grd = ctx.createLinearGradient(0, 0, 0, 100);
+grd.addColorStop(0, "#9bc5c3");
+grd.addColorStop(0.5, "#9bc5c3");
+grd.addColorStop(1, "rgba(250,250,250,0)");
+  var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'line',
+
+      // The data for our dataset
+      data: {
+          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          datasets: [{
+              label: 'My First dataset',
+              backgroundColor: grd,
+              borderColor: '#9bc5c3',
+              data: [22, 10, 5, 2, 20, 30, 45]
+          }]
+      },
+
+      // Configuration options go here
+      options: {}
+  });
+}
