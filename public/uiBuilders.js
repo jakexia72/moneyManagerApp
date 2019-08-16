@@ -61,7 +61,7 @@ function makeLatestSpendingEntree(doc){
   $('#spendingList').prepend(row);
 }
 
-function makeCharts(dataArray){
+function makeWeekBarChart(dataArray){
   var ctx = document.getElementById('spendingBreakdown-chart').getContext('2d');
   var grd = ctx.createLinearGradient(0, 0, 0, 100);
   grd.addColorStop(0, "#9bc5c3");

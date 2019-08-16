@@ -11,6 +11,7 @@ var config = {
 };
 // Initialize Firebase
 firebase.initializeApp(config);
+const auth = firebase.auth();
 const db = firebase.firestore();
 const userId = "PDb2N4jbQKyk0GDemeBL";
 
@@ -34,11 +35,27 @@ db.collection("users").doc(userId).collection("expenses").where("expenseDate", "
     }
   });
   console.log(weekOfSpending);
-  makeCharts(weekOfSpending);
+  makeWeekBarChart(weekOfSpending);
 });
 
 
-
+var monthOfSpendingByCategory = {};
+db.collection("users").doc(userId).collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if (change.type == 'added'){
+      console.log(monthOfSpendingByCategory[change.doc.data().expenseType]);
+      if(typeof monthOfSpendingByCategory[change.doc.data().expenseType] == 'undefined'){
+        monthOfSpendingByCategory[change.doc.data().expenseType] = 0;
+      }else {
+          monthOfSpendingByCategory[change.doc.data().expenseType] += change.doc.data().expenseAmount;
+      }
+    } else if (change.type == 'removed'){
+        monthOfSpendingByCategory[change.doc.data().expenseType] -= change.doc.data().expenseAmount;
+    }
+  });
+  console.log(monthOfSpendingByCategory);
+});
 
 
 
