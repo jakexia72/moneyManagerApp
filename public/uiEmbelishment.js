@@ -8,6 +8,9 @@ console.log(dayStart);
 var yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-1, 0, 0, 0, 0);
 console.log(yesterday);
 
+var weekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDay(), 0, 0, 0, 0);
+console.log(weekStart);
+
 var monthDictionary = ["January","Febuary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function timeOfDay(){

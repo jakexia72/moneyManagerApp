@@ -61,28 +61,50 @@ function makeLatestSpendingEntree(doc){
   $('#spendingList').prepend(row);
 }
 
-function makeCharts(){
+function makeCharts(dataArray){
   var ctx = document.getElementById('spendingBreakdown-chart').getContext('2d');
   var grd = ctx.createLinearGradient(0, 0, 0, 100);
-grd.addColorStop(0, "#9bc5c3");
-grd.addColorStop(0.5, "#9bc5c3");
-grd.addColorStop(1, "rgba(250,250,250,0)");
+  grd.addColorStop(0, "#9bc5c3");
+  grd.addColorStop(0.6, "#9bc5c3");
+  grd.addColorStop(1, "rgba(250,250,250,0)");
   var chart = new Chart(ctx, {
       // The type of chart we want to create
-      type: 'line',
+      type: 'bar',
 
       // The data for our dataset
       data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: ['Sat','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
           datasets: [{
-              label: 'My First dataset',
+              label: 'Spending',
               backgroundColor: grd,
               borderColor: '#9bc5c3',
-              data: [22, 10, 5, 2, 20, 30, 45]
+              data: dataArray,
+              borderWidth: 1
           }]
       },
 
       // Configuration options go here
-      options: {}
+      options: {
+        legend:{
+          display: false
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, values) {
+                        return '$' + value;
+                    }
+                }
+            }]
+        },
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItems, data) {
+                    return "$" + tooltipItems.yLabel.toString();
+                }
+              }
+            }
+      }
   });
 }

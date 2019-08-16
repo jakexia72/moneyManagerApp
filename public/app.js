@@ -22,6 +22,22 @@ db.collection("users").doc(userId).collection("expenseTypes").get().then((snapsh
   })
 });
 
+//Creating array of the last 7 days
+var weekOfSpending = [0,0,0,0,0,0,0];
+db.collection("users").doc(userId).collection("expenses").where("expenseDate", ">", weekStart ).onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if (change.type == 'added'){
+      weekOfSpending[change.doc.data().expenseDate.toDate().getDay()] += change.doc.data().expenseAmount;
+    } else if (change.type == 'removed'){
+        weekOfSpending[change.doc.data().expenseDate.toDate().getDay()] -= change.doc.data().expenseAmount;
+    }
+  });
+  console.log(weekOfSpending);
+  makeCharts(weekOfSpending);
+});
+
+
 
 
 
@@ -32,15 +48,6 @@ db.collection("users").doc(userId).get().then((snapshot) => {
   $("#greeting").html("Good " + timeOfDay() + ", " + uname.substr(0, uname.indexOf(' ')));
 });
 
-// Creating the table of data
-// db.collection("users").doc(userId).collection("expenses").get().then((snapshot) => {
-//     snapshot.docs.forEach((doc) => {
-//       makeLatestSpendingEntree(doc);
-//     })
-
-//
-
-// });
 var totalDailySpending = 0;
 var totalYesterSpending = 0;
 // console.log(typeof yesterday);
@@ -86,7 +93,6 @@ db.collection("users").doc(userId).collection("expenses").where("expenseDate", "
     } else if (change.type == 'removed'){
       totalDailySpending -= change.doc.data().expenseAmount;
     }
-
   });
   console.log("TOTAL: " + totalDailySpending);
   $('#spending-today').html("$" + totalDailySpending);
