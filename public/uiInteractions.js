@@ -72,7 +72,7 @@ $(document).ready(function() {
     }
   })
 
-makeMonthBreakdownChart();
+// makeMonthBreakdownChart();
 
 
 });

@@ -113,25 +113,24 @@ function makeWeekBarChart(dataArray){
 }
 
 var monthBreakdownChart;
-function makeMonthBreakdownChart(dataArray){
+function makeMonthBreakdownChart(dataArray, colors, labelArr, monthTotal){
+  if(typeof monthBreakdownChart != 'undefined'){monthBreakdownChart.destroy()};
   let ctx = document.getElementById('monthly-category-doughnut-chart').getContext('2d');
-  let grd = ctx.createLinearGradient(0, 0, 0, 100);
-  grd.addColorStop(0, "#9bc5c3");
-  grd.addColorStop(0.6, "#9bc5c3");
-  grd.addColorStop(1, "rgba(250,250,250,0)");
+  console.log(labelArr);
   monthBreakdownChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        labels: labelArr,
         datasets: [
           {
-            label: "Population (millions)",
-            backgroundColor: [grd, grd,grd,grd,grd],
-            data: [2478,5267,734,784,433]
+            label: 'Spending',
+            backgroundColor: colors,
+            data: dataArray
           }
         ]
       },
       options: {
+        cutoutPercentage: 75,
         responsive: true,
         legend:{
           display: false
@@ -139,10 +138,35 @@ function makeMonthBreakdownChart(dataArray){
         tooltips: {
             callbacks: {
                 label: function(tooltipItems, data) {
-                    return "$" + data.datasets[0].data[tooltipItems.index];
+                  console.log(tooltipItems.index);
+                    return "$" + data.datasets[0].data[tooltipItems.index]
+                },
+                title: function(tooltipItems, data){
+                  console.log(tooltipItems);
+                  return data.labels[tooltipItems[0].index];
                 }
-              }
             }
+        },
+        plugins:{
+          doughnutlabel: {
+        labels: [
+          {
+            text: "$" + moneyRound(monthTotal),
+            font: {
+              size: '100',
+            },
+            color: 'black'
+          },
+          {
+            text: "total this month",
+            font: {
+              size: '50'
+            },
+            color: 'grey'
+          }
+        ]
+      }
+        }
       }
   });
 }

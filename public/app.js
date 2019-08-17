@@ -61,7 +61,11 @@ function changeWeek(){
 
 
 var monthOfSpendingByCategory = {};
+var colorArray=[];
+var amountArray=[];
+var spendingLabelsArray = [];
 userRef.collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(snapshot =>{
+  let monthTotal = 0;
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if (change.type == 'added'){
@@ -70,15 +74,26 @@ userRef.collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(
         monthOfSpendingByCategory[change.doc.data().expenseType] = 0;
       }else {
           monthOfSpendingByCategory[change.doc.data().expenseType] += change.doc.data().expenseAmount;
+          monthTotal += change.doc.data().expenseAmount;
       }
     } else if (change.type == 'removed'){
         monthOfSpendingByCategory[change.doc.data().expenseType] -= change.doc.data().expenseAmount;
     }
   });
+  splitMonthOfSpending();
+  makeMonthBreakdownChart(amountArray, colorArray, spendingLabelsArray, monthTotal)
   console.log(monthOfSpendingByCategory);
 });
 
-
+function splitMonthOfSpending(){
+  let i = 0;
+  for (const [key, value] of Object.entries(monthOfSpendingByCategory)) {
+    spendingLabelsArray[i] = key;
+    colorArray[i] = categoryColors[key];
+    amountArray[i] = value;
+    i++;
+  }
+}
 
 //Creating the greeting
 userRef.get().then((snapshot) => {
@@ -90,8 +105,12 @@ var totalDailySpending = 0;
 var totalYesterSpending = 0;
 // console.log(typeof yesterday);
 
+function moneyRound(num){
+  return Math.round(num*100)/100;
+}
+
 function fromYesterday(){
-  let delta = Math.round((totalDailySpending - totalYesterSpending)*100)/100;
+  let delta = moneyRound(totalDailySpending - totalYesterSpending);
   console.log(delta);
   if (delta > 0){
     return ("+$" + delta +  " more <br> than yesterday");
