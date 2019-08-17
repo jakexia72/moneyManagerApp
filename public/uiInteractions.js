@@ -54,6 +54,22 @@ $(document).ready(function() {
     }
   });
 
+  $('#prevWeek').click(function(){
+    weeksFromThisWeek ++;
+    changeWeek();
+    if(weeksFromThisWeek > 0){
+      $('#nextWeek').removeClass('hidden');
+    }
+  });
+
+  $('#nextWeek').click(function(){
+    weeksFromThisWeek --;
+    changeWeek();
+    if(weeksFromThisWeek == 0){
+      $('#nextWeek').addClass('hidden');
+    }
+  })
+
 
 
 

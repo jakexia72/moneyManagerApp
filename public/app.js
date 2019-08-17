@@ -15,32 +15,53 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const userId = "PDb2N4jbQKyk0GDemeBL";
 
+var userRef = db.collection("users").doc(userId);
+
 //Creating the array of category colors
 var categoryColors = {};
-db.collection("users").doc(userId).collection("expenseTypes").get().then((snapshot)=>{
+userRef.collection("expenseTypes").get().then((snapshot)=>{
   snapshot.docs.forEach((expenseType)=>{
     categoryColors[expenseType.data().typeName] =  expenseType.data().typeColor;
   })
 });
 
 //Creating array of the last 7 days
-var weekOfSpending = [0,0,0,0,0,0,0];
-db.collection("users").doc(userId).collection("expenses").where("expenseDate", ">", weekStart ).onSnapshot(snapshot =>{
+var weekOfSpendingThisWeek = [0,0,0,0,0,0,0];
+userRef.collection("expenses").where("expenseDate", ">", weekStart).onSnapshot(snapshot =>{
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if (change.type == 'added'){
-      weekOfSpending[change.doc.data().expenseDate.toDate().getDay()] += change.doc.data().expenseAmount;
+      weekOfSpendingThisWeek[change.doc.data().expenseDate.toDate().getDay()] += change.doc.data().expenseAmount;
     } else if (change.type == 'removed'){
-        weekOfSpending[change.doc.data().expenseDate.toDate().getDay()] -= change.doc.data().expenseAmount;
+        weekOfSpendingThisWeek[change.doc.data().expenseDate.toDate().getDay()] -= change.doc.data().expenseAmount;
     }
   });
-  console.log(weekOfSpending);
-  makeWeekBarChart(weekOfSpending);
+  if(weeksFromThisWeek == 0){
+    makeWeekBarChart(weekOfSpendingThisWeek);
+  }
 });
+
+var weeksFromThisWeek = 0;
+function changeWeek(){
+  let start = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate()- (7*weeksFromThisWeek), 0, 0, 0, 0);
+  console.log("start adjust :" + start);
+  let end = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate()- (7* (weeksFromThisWeek-1)), 0, 0, 0, 0);
+
+  userRef.collection("expenses").where("expenseDate", ">", start).where("expenseDate", "<", end).get().then(snapshot =>{
+    let weekOfSpending = [0,0,0,0,0,0,0];
+    snapshot.docs.forEach(expense =>{
+        weekOfSpending[expense.data().expenseDate.toDate().getDay()] += expense.data().expenseAmount;
+    });
+    console.log(weekOfSpending);
+
+    makeWeekBarChart(weekOfSpending);
+  });
+}
+
 
 
 var monthOfSpendingByCategory = {};
-db.collection("users").doc(userId).collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(snapshot =>{
+userRef.collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(snapshot =>{
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if (change.type == 'added'){
@@ -60,7 +81,7 @@ db.collection("users").doc(userId).collection("expenses").where("expenseDate", "
 
 
 //Creating the greeting
-db.collection("users").doc(userId).get().then((snapshot) => {
+userRef.get().then((snapshot) => {
   const uname = snapshot.data().name
   $("#greeting").html("Good " + timeOfDay() + ", " + uname.substr(0, uname.indexOf(' ')));
 });
@@ -70,7 +91,7 @@ var totalYesterSpending = 0;
 // console.log(typeof yesterday);
 
 function fromYesterday(){
-  let delta = totalDailySpending - totalYesterSpending;
+  let delta = Math.round((totalDailySpending - totalYesterSpending)*100)/100;
   console.log(delta);
   if (delta > 0){
     return ("+$" + delta +  " more <br> than yesterday");
@@ -81,7 +102,7 @@ function fromYesterday(){
   }
 }
 
-db.collection("users").doc(userId).collection("expenseTypes").onSnapshot(snapshot =>{
+userRef.collection("expenseTypes").onSnapshot(snapshot =>{
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if(change.type == 'added'){
@@ -94,7 +115,7 @@ db.collection("users").doc(userId).collection("expenseTypes").onSnapshot(snapsho
   });
 });
 
-db.collection("users").doc(userId).collection("expenses").where("expenseDate", "<", dayStart).where("expenseDate",">",yesterday).onSnapshot(snapshot =>{
+userRef.collection("expenses").where("expenseDate", "<", dayStart).where("expenseDate",">",yesterday).onSnapshot(snapshot =>{
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     totalYesterSpending += change.doc.data().expenseAmount;
@@ -102,7 +123,7 @@ db.collection("users").doc(userId).collection("expenses").where("expenseDate", "
   console.log("TOTAL: " + totalYesterSpending);
 });
 
-db.collection("users").doc(userId).collection("expenses").where("expenseDate", ">", dayStart).onSnapshot(snapshot =>{
+userRef.collection("expenses").where("expenseDate", ">", dayStart).onSnapshot(snapshot =>{
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if (change.type == 'added'){
@@ -121,7 +142,7 @@ db.collection("users").doc(userId).collection("expenses").where("expenseDate", "
 
 
 //real-time listener
-db.collection("users").doc(userId).collection("expenses").orderBy("expenseDate").onSnapshot(snapshot => {
+userRef.collection("expenses").orderBy("expenseDate").onSnapshot(snapshot => {
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if(change.type == 'added'){

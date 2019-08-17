@@ -4,9 +4,7 @@ const app = express();
 const port = process.env.PORT ||  7890;
 const mysql = require('mysql');
 const cors = require('cors');
-// const firebase = require('firebase/database');
-const router = require('./routes/expense.js');
-app.use(router);
+
 
 app.use(express.static(__dirname + '/public'));
 

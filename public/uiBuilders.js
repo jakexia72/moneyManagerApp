@@ -61,13 +61,16 @@ function makeLatestSpendingEntree(doc){
   $('#spendingList').prepend(row);
 }
 
+var weekBreakdownChart;
 function makeWeekBarChart(dataArray){
-  var ctx = document.getElementById('spendingBreakdown-chart').getContext('2d');
-  var grd = ctx.createLinearGradient(0, 0, 0, 100);
+  if(typeof weekBreakdownChart != 'undefined'){weekBreakdownChart.destroy()};
+  let ctx = document.getElementById('spendingBreakdown-chart').getContext('2d');
+  ctx.clearRect(0, 0, ctx.width, ctx.height);
+  let grd = ctx.createLinearGradient(0, 0, 0, 100);
   grd.addColorStop(0, "#9bc5c3");
   grd.addColorStop(0.6, "#9bc5c3");
   grd.addColorStop(1, "rgba(250,250,250,0)");
-  var chart = new Chart(ctx, {
+  weekBreakdownChart = new Chart(ctx, {
       // The type of chart we want to create
       type: 'bar',
 
@@ -85,6 +88,7 @@ function makeWeekBarChart(dataArray){
 
       // Configuration options go here
       options: {
+        responsive: true,
         legend:{
           display: false
         },

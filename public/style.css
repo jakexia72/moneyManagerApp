@@ -120,3 +120,12 @@ th, td {
   background-color: darkgrey;
   border-radius: 100px;
 }
+
+.arrow-btn{
+  color: grey;
+  margin: 10px;
+}
+
+.hidden{
+  display: none;
+}
