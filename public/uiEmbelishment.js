@@ -15,6 +15,7 @@ var monthStart = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0, 0);
 console.log(monthStart);
 
 var monthDictionary = ["January","Febuary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var numArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight" , "nine", "ten", "eleven", "twelve"];
 
 function timeOfDay(){
   if(time < 12){
@@ -58,4 +59,18 @@ function getNiceUIDateFormat(date){
 
 function isToday(someDay){
   return someDay.getDate() == today.getDate() && someDay.getMonth() == today.getMonth() && someDay.getFullYear() == today.getFullYear();
+}
+
+
+
+function getWeeksAgoString(weeks){
+  if(weeks == 0){
+    return "This Week";
+  } else if (weeks == 1){
+    return "Last Week";
+  } else if (weeks < 12){
+    return numArray[weeks] + " weeks ago";
+  } else {
+    return weeks + " weeks ago";
+  }
 }

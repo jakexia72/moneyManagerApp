@@ -57,6 +57,7 @@ $(document).ready(function() {
   $('#prevWeek').click(function(){
     weeksFromThisWeek ++;
     changeWeek();
+    $('#weekIndicator').html(getWeeksAgoString(weeksFromThisWeek));
     if(weeksFromThisWeek > 0){
       $('#nextWeek').removeClass('hidden');
     }
@@ -65,6 +66,7 @@ $(document).ready(function() {
   $('#nextWeek').click(function(){
     weeksFromThisWeek --;
     changeWeek();
+    $('#weekIndicator').html(getWeeksAgoString(weeksFromThisWeek));
     if(weeksFromThisWeek == 0){
       $('#nextWeek').addClass('hidden');
     }
