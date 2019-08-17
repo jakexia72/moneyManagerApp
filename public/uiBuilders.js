@@ -64,8 +64,7 @@ function makeLatestSpendingEntree(doc){
 var weekBreakdownChart;
 function makeWeekBarChart(dataArray){
   if(typeof weekBreakdownChart != 'undefined'){weekBreakdownChart.destroy()};
-  let ctx = document.getElementById('spendingBreakdown-chart').getContext('2d');
-  ctx.clearRect(0, 0, ctx.width, ctx.height);
+  let ctx = document.getElementById('weekly-amount-breakdown-chart').getContext('2d');
   let grd = ctx.createLinearGradient(0, 0, 0, 100);
   grd.addColorStop(0, "#9bc5c3");
   grd.addColorStop(0.6, "#9bc5c3");
@@ -105,7 +104,42 @@ function makeWeekBarChart(dataArray){
         tooltips: {
             callbacks: {
                 label: function(tooltipItems, data) {
-                    return "$" + tooltipItems.yLabel.toString();
+                    return "$" + tooltipItems.value;
+                }
+              }
+            }
+      }
+  });
+}
+
+var monthBreakdownChart;
+function makeMonthBreakdownChart(dataArray){
+  let ctx = document.getElementById('monthly-category-doughnut-chart').getContext('2d');
+  let grd = ctx.createLinearGradient(0, 0, 0, 100);
+  grd.addColorStop(0, "#9bc5c3");
+  grd.addColorStop(0.6, "#9bc5c3");
+  grd.addColorStop(1, "rgba(250,250,250,0)");
+  monthBreakdownChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        datasets: [
+          {
+            label: "Population (millions)",
+            backgroundColor: [grd, grd,grd,grd,grd],
+            data: [2478,5267,734,784,433]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        legend:{
+          display: false
+        },
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItems, data) {
+                    return "$" + data.datasets[0].data[tooltipItems.index];
                 }
               }
             }

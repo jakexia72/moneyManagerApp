@@ -42,7 +42,7 @@
               <button id="nextWeek" class = "arrow-btn hidden">next ></button>
             </div>
           </div>
-          <canvas id = "spendingBreakdown-chart"></canvas>
+          <canvas id = "weekly-amount-breakdown-chart"></canvas>
         </div>
       </div>
 
@@ -71,11 +71,12 @@
 
             </form>
         </div>
-        <div class = "panel">
+        <div class = "panel midPanel">
           <div class = "header-row">
             <h5>Categories</h3>
             <button data-id = "categories-add-closed" id = "categories-add" class = "add-btn">+</button>
           </div>
+          <canvas id="monthly-category-doughnut-chart"></canvas>
 
             <form id = "add-expenseType-form" style="display:none;">
               <input type = "text" id = "add-expenseTypeName" placeholder="Eating Out" />
