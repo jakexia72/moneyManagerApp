@@ -1,23 +1,25 @@
-body,html{
+body{
   font-family: sans-serif;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content:space-around;
-  flex-wrap: wrap;
   background: linear-gradient(to bottom right, #cfd9df, #e2ebf0);
 }
-
+h1{
+  font-weight: bold;
+}
 h5{
+  font-size: 1em;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-weight: normal;
   color: grey;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 h3{
+  font-weight: bold;
+  font-size: 1.17em;
   padding: none;
   margin: 0;
 }
@@ -33,12 +35,53 @@ button{
   color: grey;
 }
 
-.container{
+.mainContainer{
+  margin: 15%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: stretch;
+  align-content: center;
+}
+.panel-layered{
+  min-height: 100px;
+  min-width: 100px;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+.bg{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.fg{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.amountRemaining-fill-indicator{
+  width: 100%;
+  height: 60%;
+  position: absolute;
+  bottom: 0;
+}
 
+.fg-container{
+  position: absolute;
+
+  text-align: right;
+  bottom: 0;
+  right: 0;
 }
 
 #greeting{
-  color:white;
+  color: black;
   text-shadow:5px 5px 15px rgba(0,0,0,0.2);
 }
 
@@ -53,16 +96,20 @@ button{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
+  align-content: stretch;
+  flex-grow: 1;
 }
 
 .panelContainer-col{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
+  align-content: stretch;
+  flex-grow: 1;
 }
 
 .panel{
@@ -71,13 +118,14 @@ button{
   box-shadow:5px 5px 15px rgba(0,0,0,0.2);
   padding: 1em;
   margin: 10px;
+  flex-grow: 1;
 }
 
 .midPanel{
-  max-width: 300px;
+  flex-grow: 0.5;
 }
 
-.badge{
+.colorBadge{
   margin-top: 5px;
   margin-right: 5px;
   width: 10px;
@@ -112,8 +160,10 @@ th, td {
 }
 
 .allSpending{
-  max-height: 350px;
+  flex-grow: 0 !important;
+  flex-shrink: 100;
   overflow-y: scroll;
+  max-height: 600px;
 }
 
 .add-btn{

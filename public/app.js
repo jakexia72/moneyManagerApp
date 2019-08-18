@@ -64,8 +64,9 @@ var monthOfSpendingByCategory = {};
 var colorArray=[];
 var amountArray=[];
 var spendingLabelsArray = [];
+var monthTotal = 0;
 userRef.collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(snapshot =>{
-  let monthTotal = 0;
+
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if (change.type == 'added'){

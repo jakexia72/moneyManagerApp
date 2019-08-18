@@ -10,7 +10,7 @@ function makeExpenseCategorySelectOption(doc){
 //make the dot that represents the category of spending
 function makeCategoryBadge(category){
   let badge = document.createElement('div');
-  badge.classList.add('badge');
+  badge.classList.add('colorBadge');
   console.log(category);
   console.log(categoryColors[category]);
   $(badge).css('background',categoryColors[category]);
@@ -75,7 +75,7 @@ function makeWeekBarChart(dataArray){
 
       // The data for our dataset
       data: {
-          labels: ['Sat','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          labels: ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
           datasets: [{
               label: 'Spending',
               backgroundColor: grd,

@@ -2,6 +2,10 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/style.css" type="text/css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -26,8 +30,26 @@
 
 <body>
   <div class = "mainContainer">
-    <h1 id = "greeting"></h1>
+    <h1 id = "greeting">Hello</h1>
     <div class = "panelContainer-col">
+      <div class = "panelContainer-row">
+        <div class = "panel panel-layered">
+          <div class = "bg">
+            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
+
+            </div>
+          </div>
+          <div class = "fg">
+            <div class = "fg-container">
+              <p>Budget Name</p>
+              <p>Amount Remaining</p>
+            </div>
+          </div>
+        </div>
+        <div class = "panel">
+          test
+        </div>
+      </div>
       <div class = "panelContainer-row">
         <div class = "panel">
           <div class = "spending-today">
@@ -56,24 +78,37 @@
             </table>
           </div>
       </div>
-      <div class = "panelContainer-col midPanel">
+      <div class = "panelContainer-col">
         <div class = "panel">
           <h5>Add Expense</h3>
 
             <form id = "add-expense-form">
+              <div class = "form-group">
+                <label for = "add-expenseAmount">Amount Spent</label>
+                <input type = "number" class = "form-control" step="0.01" id = "add-expenseAmount" placeholder="$0.00"/>
+              </div>
 
-              <input type = "number" step="0.01" id = "add-expenseAmount" placeholder="$0.00"/>
-              <input type = "text" id = "add-expenseName" placeholder="Kraby Patty" />
-              <input type = "text" id = "add-expenseLocation" placeholder="Crusty Krabs" />
+              <div class = "form-group">
+                <label for = "add-expenseLocation">Location</label>
+                <input type = "text" class = "form-control" id = "add-expenseLocation" placeholder="Crusty Krabs" />
+              </div>
 
-              <select id= "add-expenseType">
-              </select>
+              <div class = "form-group">
+                <label for = "add-expenseName">Description</label>
+                <input type = "text" class = "form-control" id = "add-expenseName" placeholder="Kraby Patty" />
+              </div>
+
+              <div class = "form-group">
+                <label for = "add-expenseType">Category</label>
+                <select class="form-control" id= "add-expenseType">
+                </select>
+              </div>
 
               <button>Add Expense</button>
 
             </form>
         </div>
-        <div class = "panel midPanel">
+        <div class = "panel">
           <div class = "header-row">
             <h5>Categories</h3>
             <button data-id = "categories-add-closed" id = "categories-add" class = "add-btn">+</button>
