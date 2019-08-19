@@ -2,6 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -29,14 +31,21 @@
 </head>
 
 <body>
+  <div id = "add-button">＋</div>
   <div class = "mainContainer">
     <h1 id = "greeting">Hello</h1>
     <div class = "panelContainer-col">
       <div class = "panelContainer-row">
+        <div class = "panel">
+          <div class = "spending-today">
+            <h1 id = "spending-today"></h1>
+            <h5>Spent Today</h5>
+            <p id = "average-comparison-today" class = "grey"></p>
+          </div>
+        </div>
         <div class = "panel panel-layered">
           <div class = "bg">
             <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
-
             </div>
           </div>
           <div class = "fg">
@@ -46,18 +55,63 @@
             </div>
           </div>
         </div>
-        <div class = "panel">
-          test
+        <div class = "panel panel-layered">
+          <div class = "bg">
+            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
+            </div>
+          </div>
+          <div class = "fg">
+            <div class = "fg-container">
+              <p>Budget Name</p>
+              <p>Amount Remaining</p>
+            </div>
+          </div>
+        </div>
+        <div class = "panel panel-layered">
+          <div class = "bg">
+            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
+            </div>
+          </div>
+          <div class = "fg">
+            <div class = "fg-container">
+              <p>Budget Name</p>
+              <p>Amount Remaining</p>
+            </div>
+          </div>
+        </div>
+        <div class = "panel panel-layered">
+          <div class = "bg">
+            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
+            </div>
+          </div>
+          <div class = "fg">
+            <div class = "fg-container">
+              <p>Budget Name</p>
+              <p>Amount Remaining</p>
+            </div>
+          </div>
+        </div>
+        <div class = "panel panel-layered">
+          <div class = "bg">
+            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
+            </div>
+          </div>
+          <div class = "fg">
+            <div class = "fg-container">
+              <p>Budget Name</p>
+              <p>Amount Remaining</p>
+            </div>
+          </div>
         </div>
       </div>
       <div class = "panelContainer-row">
+
         <div class = "panel">
-          <div class = "spending-today">
-            <h1 id = "spending-today"></h1>
-            <h5>Spent Today</h5>
-            <p id = "average-comparison-today" class = "grey"></p>
-          </div>
+          <h5>This Month</h3>
+          <canvas class = "donut-hole-chart" id="monthly-category-doughnut-chart"  width="100%" height="100%"></canvas>
         </div>
+
+
         <div class = "panel">
           <div class = "header-row">
             <h5 id = "weekIndicator">This Week</h3>
@@ -113,7 +167,7 @@
             <h5>Categories</h3>
             <button data-id = "categories-add-closed" id = "categories-add" class = "add-btn">+</button>
           </div>
-            <canvas class = "donut-hole-chart" id="monthly-category-doughnut-chart"></canvas>
+            <!-- <canvas class = "donut-hole-chart" id="monthly-category-doughnut-chart"></canvas> -->
 
 
 
