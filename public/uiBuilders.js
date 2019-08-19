@@ -154,11 +154,12 @@ function makeMonthBreakdownChart(dataArray, colors, labelArr, monthTotal){
             text: "$" + moneyRound(monthTotal),
             font: {
               size: '100',
+              weight: 'bold'
             },
             color: 'black'
           },
           {
-            text: "total this month",
+            text: "T O T A L",
             font: {
               size: '50'
             },

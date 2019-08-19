@@ -135,54 +135,60 @@
       <div class = "panelContainer-col">
         <div class = "panel">
           <h5>Add Expense</h3>
-
             <form id = "add-expense-form">
               <div class = "form-group">
                 <label for = "add-expenseAmount">Amount Spent</label>
-                <input type = "number" class = "form-control" step="0.01" id = "add-expenseAmount" placeholder="$0.00"/>
+                <input type = "number" class = "form-control" step="0.01" id = "add-expenseAmount" placeholder="$0.00" required/>
               </div>
-
               <div class = "form-group">
                 <label for = "add-expenseLocation">Location</label>
-                <input type = "text" class = "form-control" id = "add-expenseLocation" placeholder="Crusty Krabs" />
+                <input type = "text" class = "form-control" id = "add-expenseLocation" placeholder="Crusty Krabs" required/>
               </div>
-
               <div class = "form-group">
                 <label for = "add-expenseName">Description</label>
-                <input type = "text" class = "form-control" id = "add-expenseName" placeholder="Kraby Patty" />
+                <input type = "text" class = "form-control" id = "add-expenseName" placeholder="Kraby Patty" required/>
               </div>
-
               <div class = "form-group">
-                <label for = "add-expenseType">Category</label>
+                <label for = "add-expenseType">Budget</label>
                 <select class="form-control" id= "add-expenseType">
                 </select>
               </div>
 
-              <button>Add Expense</button>
+              <button class = "btn btn-outline-primary">Add Expense</button>
 
             </form>
         </div>
         <div class = "panel">
-          <div class = "header-row">
-            <h5>Categories</h3>
-            <button data-id = "categories-add-closed" id = "categories-add" class = "add-btn">+</button>
-          </div>
+            <h5>New Budget</h3>
             <!-- <canvas class = "donut-hole-chart" id="monthly-category-doughnut-chart"></canvas> -->
 
 
 
-            <form id = "add-expenseType-form" style="display:none;">
-              <input type = "text" id = "add-expenseTypeName" placeholder="Eating Out" />
-              <input type = "color" id = "add-expenseTypeColor"/>
-              <select onchange="checkHasBudget(this.value)" id = "add-expenseTypeBudgetPeriod">
-                <option value = "trackOnly">track only</option>
-                <option value = "noRenew">does not renew</option>
-                <option value = "weekly">renews weekly</option>
-                <option value = "monthly">renews monthly</option>
-                <option value = "yearly">renews yearly</option>
-              </select>
-              <input style ="display:none;" type = "number" step="0.01" id = "add-expenseTypeBudget" placeholder="$80" />
-              <button>Add Category</button>
+            <form id = "add-expenseType-form">
+              <div class = "form-group">
+                <label for = "add-expenseTypeName">New Budget Name</label>
+                <input type = "text" class = "form-control" id = "add-expenseTypeName" placeholder="Eating Out" required/>
+              </div>
+              <div class = "form-group">
+                <label for = "add-expenseTypeColor">Color</label>
+                <input type = "color"  id = "add-expenseTypeColor" required/>
+              </div>
+              <div class = "form-group">
+                <label for = "add-expenseTypeBudgetPeriod">Budget Type</label>
+                <select class = "form-control" onchange="checkHasBudget(this.value)" id = "add-expenseTypeBudgetPeriod" required>
+                  <option value = "trackOnly">track only (no limit)</option>
+                  <option value = "noRenew">one-off</option>
+                  <option value = "weekly">renews weekly</option>
+                  <option value = "monthly">renews monthly</option>
+                  <option value = "yearly">renews yearly</option>
+                </select>
+              </div>
+              <div id = "add-expenseTypeBudget-hiddenFormGroup" class = "form-group" style ="display:none;">
+                <label for = "add-expenseTypeBudget">Budget Amount</label>
+                <input type = "number" class = "form-control" step="0.01" id = "add-expenseTypeBudget" placeholder="$80" />
+              </div>
+
+              <button class = "btn btn-outline-primary">Add Category</button>
             </form>
         </div>
       </div>

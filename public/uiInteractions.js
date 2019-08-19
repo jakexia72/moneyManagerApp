@@ -4,9 +4,9 @@
 
 function checkHasBudget(value){
   if(value != "trackOnly"){
-    $('#add-expenseTypeBudget').css('display','block');
+    $('#add-expenseTypeBudget-hiddenFormGroup').css('display','block');
   } else {
-    $('#add-expenseTypeBudget').css('display','none');
+    $('#add-expenseTypeBudget-hiddenFormGroup').css('display','none');
   }
 }
 

@@ -13,8 +13,9 @@ body{
     color: white;
     text-align: center;
     position: fixed;
-    right: 5px;
-    bottom: 5px;
+    right: 8px;
+    bottom: 8px;
+    z-index: 100;
 }
 h1{
   font-weight: bold;
@@ -36,7 +37,7 @@ h3{
   margin: 0;
 }
 
-button{
+button noStyle{
   border: none;
   margin: 0;
   padding: 0;
@@ -95,7 +96,6 @@ button{
 }
 
 #greeting{
-  color: black;
   text-shadow:5px 5px 15px rgba(0,0,0,0.2);
 }
 
