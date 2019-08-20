@@ -20,11 +20,11 @@ var numArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "
 var yearStart = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0);
 console.log("year start " + yearStart);
 
-var periodRenewStartDays = {
-  "yearly" : yearStart,
-  "monthly" : monthStart,
-  "weekly" : weekStart,
-  "oneOff" : ""
+var periods = {
+  "yearly" : "year",
+  "monthly" : "month",
+  "weekly" : "week",
+  "oneOff" : "remaining"
 }
 
 function timeOfDay(){

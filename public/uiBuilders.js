@@ -1,12 +1,12 @@
-function makeBudgetIndicators(dict){
+function makeBudgetIndicators(dict,type){
   for (const [key, value] of Object.entries(dict)) {
-    makeAmountRemainingFillIndicator(value,categoryBudgetAmounts[key],key)
+    makeAmountRemainingFillIndicator(value,categoryBudgetAmounts[key],key,type)
   }
 }
 
-function makeAmountRemainingFillIndicator(amountSpent,amountTotal,category){
+function makeAmountRemainingFillIndicator(amountSpent,amountTotal,category,type){
   let amountRemaining = amountTotal - amountSpent;
-  let amountRemainingPercent = Math.round((amountRemaining/amountTotal) * 100);
+  let amountRemainingPercent = Math.round((amountRemaining/amountTotal) * 10000) / 100;
 
   let panel = document.createElement('div');
   $(panel).addClass("panel panel-layered");
@@ -15,7 +15,7 @@ function makeAmountRemainingFillIndicator(amountSpent,amountTotal,category){
   $(bg).addClass("bg");
   let fillIndicator = document.createElement('div');
   $(fillIndicator).addClass("amountRemaining-fill-indicator");
-  $(fillIndicator).css("background","linear-gradient(to bottom," +  convertHex(categoryColors[category],50) + ",white)");
+  $(fillIndicator).css("background","linear-gradient(to bottom," +  categoryColors[category] + ","+ changeHue(categoryColors[category],20) + ")");
   $(fillIndicator).css("border-top", "2px solid " + categoryColors[category]);
   $(fillIndicator).css("height", amountRemainingPercent+"%");
 
@@ -27,13 +27,23 @@ function makeAmountRemainingFillIndicator(amountSpent,amountTotal,category){
   let fgContainer = document.createElement('div');
   $(fgContainer).addClass('fg-container');
 
-  let budgetName = document.createElement('h3');
+  let budgetName = document.createElement('h4');
   $(budgetName).html(category);
   let budgetRemaining = document.createElement('h2');
   $(budgetRemaining).html("$" + moneyRound(amountRemaining).toFixed(2));
+  let budgetRenewText = document.createElement('h4');
+  if (type == "oneOff"){
+    $(budgetRenewText).html(periods[type]);
+  } else {
+      $(budgetRenewText).html("left this " + periods[type]);
+  }
 
-  $(fgContainer).append(budgetRemaining);
+
+
   $(fgContainer).append(budgetName);
+  $(fgContainer).append(budgetRemaining);
+  $(fgContainer).append(budgetRenewText);
+
   $(fg).append(fgContainer);
 
   $(panel).append(bg);

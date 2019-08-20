@@ -68,7 +68,7 @@ userRef.collection("expenses").where("expenseTypeBudgetPeriod","==","yearly").wh
       yearlyBudgetSpendings[expense.expenseType] -= expense.expenseAmount;
     }
   })
-  makeBudgetIndicators(yearlyBudgetSpendings);
+  makeBudgetIndicators(yearlyBudgetSpendings,"yearly");
 })
 
 //month related
@@ -90,7 +90,7 @@ userRef.collection("expenses").where("expenseTypeBudgetPeriod","==","monthly").w
   })
   console.log("monthly:");
   console.log(monthlyBudgetSpendings);
-  makeBudgetIndicators(monthlyBudgetSpendings);
+  makeBudgetIndicators(monthlyBudgetSpendings, "monthly");
 })
 
 var weeklyBudgetSpendings = {};
@@ -109,7 +109,7 @@ userRef.collection("expenses").where("expenseTypeBudgetPeriod","==","weekly").wh
       weeklyBudgetSpendings[expense.expenseType] -= expense.expenseAmount;
     }
   })
-  makeBudgetIndicators(weeklyBudgetSpendings)
+  makeBudgetIndicators(weeklyBudgetSpendings, "weekly")
 })
 
 var oneOffBudgetSpendings = {};
@@ -128,7 +128,7 @@ userRef.collection("expenses").where("expenseTypeBudgetPeriod", "==", "noRenew")
       oneOffBudgetSpendings[expense.expenseType] -= expense.expenseAmount;
     }
   })
-  makeBudgetIndicators(oneOffBudgetSpendings)
+  makeBudgetIndicators(oneOffBudgetSpendings, "oneOff")
 })
 
 
