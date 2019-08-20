@@ -17,13 +17,120 @@ const userId = "PDb2N4jbQKyk0GDemeBL";
 
 var userRef = db.collection("users").doc(userId);
 
+
+
+function moneyRound(num){
+  return Math.round(num*100)/100;
+}
+
+function getArrayTotal(arr){
+  return arr.reduce((a, b) => a + b, 0)
+}
+
+// userRef.collection("expenseTypes").get().then((snapshot)=>{
+//   snapshot.docs.forEach((expenseType)=>{
+//     categoryColors[expenseType.data().typeName] =  expenseType.data().typeColor;
+//   })
+// });
 //Creating the array of category colors
 var categoryColors = {};
-userRef.collection("expenseTypes").get().then((snapshot)=>{
-  snapshot.docs.forEach((expenseType)=>{
-    categoryColors[expenseType.data().typeName] =  expenseType.data().typeColor;
+var categoryBudgetAmounts = {};
+var categoryRenewPeriods = {};
+
+userRef.collection("expenseTypes").onSnapshot(snapshot => {
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if(change.type == 'added'){
+      let expenseType = change.doc.data();
+      categoryColors[expenseType.typeName] =  expenseType.typeColor;
+      categoryBudgetAmounts[expenseType.typeName] = expenseType.budget;
+      categoryRenewPeriods[expenseType.typeName] = expenseType.budgetPeriod;
+    } else if (change.type == 'removed'){
+      //Delete all spending entrees associated with the said budget
+    }
   })
-});
+})
+
+//year related
+var yearlyBudgetSpendings = {};
+userRef.collection("expenses").where("expenseTypeBudgetPeriod","==","yearly").where("expenseDate", ">", yearStart).onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if(change.type == 'added'){
+      let expense = change.doc.data();
+      if(typeof yearlyBudgetSpendings[expense.expenseType] == "undefined"){
+        yearlyBudgetSpendings[expense.expenseType] = expense.expenseAmount;
+      } else {
+        yearlyBudgetSpendings[expense.expenseType] += expense.expenseAmount;
+      }
+    } else if (change.type == 'removed'){
+      let expense = change.doc.data();
+      yearlyBudgetSpendings[expense.expenseType] -= expense.expenseAmount;
+    }
+  })
+  makeBudgetIndicators(yearlyBudgetSpendings);
+})
+
+//month related
+var monthlyBudgetSpendings = {};
+userRef.collection("expenses").where("expenseTypeBudgetPeriod","==","monthly").where("expenseDate", ">", monthStart).onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if(change.type == 'added'){
+      let expense = change.doc.data();
+      if(typeof monthlyBudgetSpendings[expense.expenseType] == "undefined"){
+        monthlyBudgetSpendings[expense.expenseType] = expense.expenseAmount;
+      } else {
+        monthlyBudgetSpendings[expense.expenseType] += expense.expenseAmount;
+      }
+    } else if (change.type == 'removed'){
+      let expense = change.doc.data();
+      monthlyBudgetSpendings[expense.expenseType] -= expense.expenseAmount;
+    }
+  })
+  console.log("monthly:");
+  console.log(monthlyBudgetSpendings);
+  makeBudgetIndicators(monthlyBudgetSpendings);
+})
+
+var weeklyBudgetSpendings = {};
+userRef.collection("expenses").where("expenseTypeBudgetPeriod","==","weekly").where("expenseDate", ">", weekStart).onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if(change.type == 'added'){
+      let expense = change.doc.data();
+      if(typeof weeklyBudgetSpendings[expense.expenseType] == "undefined"){
+        weeklyBudgetSpendings[expense.expenseType] = expense.expenseAmount;
+      } else {
+        weeklyBudgetSpendings[expense.expenseType] += expense.expenseAmount;
+      }
+    } else if (change.type == 'removed'){
+      let expense = change.doc.data();
+      weeklyBudgetSpendings[expense.expenseType] -= expense.expenseAmount;
+    }
+  })
+  makeBudgetIndicators(weeklyBudgetSpendings)
+})
+
+var oneOffBudgetSpendings = {};
+userRef.collection("expenses").where("expenseTypeBudgetPeriod", "==", "noRenew").onSnapshot(snapshot =>{
+  let changes = snapshot.docChanges();
+  changes.forEach(change =>{
+    if(change.type == 'added'){
+      let expense = change.doc.data();
+      if(typeof oneOffBudgetSpendings[expense.expenseType] == "undefined"){
+        oneOffBudgetSpendings[expense.expenseType] = expense.expenseAmount;
+      } else {
+        oneOffBudgetSpendings[expense.expenseType] += expense.expenseAmount;
+      }
+    } else if (change.type == 'removed'){
+      let expense = change.doc.data();
+      oneOffBudgetSpendings[expense.expenseType] -= expense.expenseAmount;
+    }
+  })
+  makeBudgetIndicators(oneOffBudgetSpendings)
+})
+
 
 //Creating array of the last 7 days
 var weekOfSpendingThisWeek = [0,0,0,0,0,0,0];
@@ -60,22 +167,21 @@ function changeWeek(){
 
 
 
+//The stuff needed for the pie chart
 var monthOfSpendingByCategory = {};
 var colorArray=[];
 var amountArray=[];
 var spendingLabelsArray = [];
 var monthTotal = 0;
 userRef.collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(snapshot =>{
-
   let changes = snapshot.docChanges();
   changes.forEach(change =>{
     if (change.type == 'added'){
       console.log(monthOfSpendingByCategory[change.doc.data().expenseType]);
       if(typeof monthOfSpendingByCategory[change.doc.data().expenseType] == 'undefined'){
-        monthOfSpendingByCategory[change.doc.data().expenseType] = 0;
+        monthOfSpendingByCategory[change.doc.data().expenseType] = change.doc.data().expenseAmount;
       }else {
           monthOfSpendingByCategory[change.doc.data().expenseType] += change.doc.data().expenseAmount;
-          monthTotal += change.doc.data().expenseAmount;
       }
     } else if (change.type == 'removed'){
         monthOfSpendingByCategory[change.doc.data().expenseType] -= change.doc.data().expenseAmount;
@@ -85,13 +191,14 @@ userRef.collection("expenses").where("expenseDate", ">", monthStart).onSnapshot(
   makeMonthBreakdownChart(amountArray, colorArray, spendingLabelsArray, monthTotal)
   console.log(monthOfSpendingByCategory);
 });
-
 function splitMonthOfSpending(){
   let i = 0;
+  monthTotal = 0;
   for (const [key, value] of Object.entries(monthOfSpendingByCategory)) {
     spendingLabelsArray[i] = key;
     colorArray[i] = categoryColors[key];
     amountArray[i] = value;
+    monthTotal += value;
     i++;
   }
 }
@@ -106,9 +213,7 @@ var totalDailySpending = 0;
 var totalYesterSpending = 0;
 // console.log(typeof yesterday);
 
-function moneyRound(num){
-  return Math.round(num*100)/100;
-}
+
 
 function fromYesterday(){
   let delta = moneyRound(totalDailySpending - totalYesterSpending);
@@ -153,7 +258,8 @@ userRef.collection("expenses").where("expenseDate", ">", dayStart).onSnapshot(sn
     }
   });
   console.log("TOTAL: " + totalDailySpending);
-  $('#spending-today').html("$" + totalDailySpending);
+
+  $('#spending-today').html("$" + moneyRound(totalDailySpending).toFixed(2));
   let delta = totalYesterSpending - totalDailySpending;
   $('#average-comparison-today').html(fromYesterday());
 });

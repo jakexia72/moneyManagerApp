@@ -35,6 +35,9 @@
   <div class = "mainContainer">
     <h1 id = "greeting">Hello</h1>
     <div class = "panelContainer-col">
+      <div id = "budgetIndicators" class = "panelContainer-row">
+        <!-- testing! -->
+      </div>
       <div class = "panelContainer-row">
         <div class = "panel">
           <div class = "spending-today">
@@ -43,66 +46,7 @@
             <p id = "average-comparison-today" class = "grey"></p>
           </div>
         </div>
-        <div class = "panel panel-layered">
-          <div class = "bg">
-            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
-            </div>
-          </div>
-          <div class = "fg">
-            <div class = "fg-container">
-              <p>Budget Name</p>
-              <p>Amount Remaining</p>
-            </div>
-          </div>
-        </div>
-        <div class = "panel panel-layered">
-          <div class = "bg">
-            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
-            </div>
-          </div>
-          <div class = "fg">
-            <div class = "fg-container">
-              <p>Budget Name</p>
-              <p>Amount Remaining</p>
-            </div>
-          </div>
-        </div>
-        <div class = "panel panel-layered">
-          <div class = "bg">
-            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
-            </div>
-          </div>
-          <div class = "fg">
-            <div class = "fg-container">
-              <p>Budget Name</p>
-              <p>Amount Remaining</p>
-            </div>
-          </div>
-        </div>
-        <div class = "panel panel-layered">
-          <div class = "bg">
-            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
-            </div>
-          </div>
-          <div class = "fg">
-            <div class = "fg-container">
-              <p>Budget Name</p>
-              <p>Amount Remaining</p>
-            </div>
-          </div>
-        </div>
-        <div class = "panel panel-layered">
-          <div class = "bg">
-            <div class = "amountRemaining-fill-indicator" style = "background: rgba(250,0,0,0.5); border-top:2px solid red;">
-            </div>
-          </div>
-          <div class = "fg">
-            <div class = "fg-container">
-              <p>Budget Name</p>
-              <p>Amount Remaining</p>
-            </div>
-          </div>
-        </div>
+
       </div>
       <div class = "panelContainer-row">
 
@@ -116,10 +60,11 @@
           <div class = "header-row">
             <h5 id = "weekIndicator">This Week</h3>
             <div class = "prev-next-arrows">
-              <button id="prevWeek" class = "arrow-btn">< prev</button>
-              <button id="nextWeek" class = "arrow-btn hidden">next ></button>
+              <button id="prevWeek" class = "arrow-btn noStyle">< prev</button>
+              <button id="nextWeek" class = "arrow-btn hidden noStyle">next ></button>
             </div>
           </div>
+          <h6 id = "spendingOfWeek"></h6>
           <canvas id = "weekly-amount-breakdown-chart"></canvas>
         </div>
       </div>
@@ -176,7 +121,6 @@
               <div class = "form-group">
                 <label for = "add-expenseTypeBudgetPeriod">Budget Type</label>
                 <select class = "form-control" onchange="checkHasBudget(this.value)" id = "add-expenseTypeBudgetPeriod" required>
-                  <option value = "trackOnly">track only (no limit)</option>
                   <option value = "noRenew">one-off</option>
                   <option value = "weekly">renews weekly</option>
                   <option value = "monthly">renews monthly</option>

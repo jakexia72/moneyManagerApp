@@ -23,7 +23,9 @@ $(document).ready(function() {
       expenseName: $('#add-expenseName').val(),
       expenseLocation: $('#add-expenseLocation').val(),
       expenseType: $('#add-expenseType').val(),
+      expenseTypeBudgetPeriod: categoryRenewPeriods[$('#add-expenseType').val()] ,
       expenseDate: expenseDateVar
+
     });
      $('#add-expense-form').trigger('reset');
   });

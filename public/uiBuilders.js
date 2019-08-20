@@ -1,3 +1,59 @@
+function makeBudgetIndicators(dict){
+  for (const [key, value] of Object.entries(dict)) {
+    makeAmountRemainingFillIndicator(value,categoryBudgetAmounts[key],key)
+  }
+}
+
+function makeAmountRemainingFillIndicator(amountSpent,amountTotal,category){
+  let amountRemaining = amountTotal - amountSpent;
+  let amountRemainingPercent = Math.round((amountRemaining/amountTotal) * 100);
+
+  let panel = document.createElement('div');
+  $(panel).addClass("panel panel-layered");
+
+  let bg = document.createElement('div');
+  $(bg).addClass("bg");
+  let fillIndicator = document.createElement('div');
+  $(fillIndicator).addClass("amountRemaining-fill-indicator");
+  $(fillIndicator).css("background","linear-gradient(to bottom," +  convertHex(categoryColors[category],50) + ",white)");
+  $(fillIndicator).css("border-top", "2px solid " + categoryColors[category]);
+  $(fillIndicator).css("height", amountRemainingPercent+"%");
+
+  $(bg).append(fillIndicator);
+
+  let fg = document.createElement('div');
+  $(fg).addClass("fg");
+
+  let fgContainer = document.createElement('div');
+  $(fgContainer).addClass('fg-container');
+
+  let budgetName = document.createElement('h3');
+  $(budgetName).html(category);
+  let budgetRemaining = document.createElement('h2');
+  $(budgetRemaining).html("$" + moneyRound(amountRemaining).toFixed(2));
+
+  $(fgContainer).append(budgetRemaining);
+  $(fgContainer).append(budgetName);
+  $(fg).append(fgContainer);
+
+  $(panel).append(bg);
+  $(panel).append(fg);
+
+  $('#budgetIndicators').append(panel)
+
+}
+
+function convertHex(hex,opacity){
+    hex = hex.replace('#','');
+    r = parseInt(hex.substring(0,2), 16);
+    g = parseInt(hex.substring(2,4), 16);
+    b = parseInt(hex.substring(4,6), 16);
+
+    result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
+    return result;
+}
+
+
 function makeExpenseCategorySelectOption(doc){
   let option = document.createElement('option');
   option.setAttribute('data-id', doc.data().id);
@@ -63,6 +119,7 @@ function makeLatestSpendingEntree(doc){
 
 var weekBreakdownChart;
 function makeWeekBarChart(dataArray){
+  $('#spendingOfWeek').html("$" + getArrayTotal(dataArray).toFixed(2) + " total");
   if(typeof weekBreakdownChart != 'undefined'){weekBreakdownChart.destroy()};
   let ctx = document.getElementById('weekly-amount-breakdown-chart').getContext('2d');
   let grd = ctx.createLinearGradient(0, 0, 0, 100);
@@ -94,6 +151,7 @@ function makeWeekBarChart(dataArray){
         scales: {
             yAxes: [{
                 ticks: {
+                  maxTicksLimit: 5,
                     // Include a dollar sign in the ticks
                     callback: function(value, index, values) {
                         return '$' + value;

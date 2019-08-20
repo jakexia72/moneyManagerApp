@@ -17,6 +17,16 @@ console.log(monthStart);
 var monthDictionary = ["January","Febuary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var numArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight" , "nine", "ten", "eleven", "twelve"];
 
+var yearStart = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0);
+console.log("year start " + yearStart);
+
+var periodRenewStartDays = {
+  "yearly" : yearStart,
+  "monthly" : monthStart,
+  "weekly" : weekStart,
+  "oneOff" : ""
+}
+
 function timeOfDay(){
   if(time < 12){
     return "Morning";
