@@ -49,7 +49,7 @@ function makeAmountRemainingFillIndicator(amountSpent,amountTotal,category,type)
   $(panel).append(bg);
   $(panel).append(fg);
 
-  $('#budgetIndicators').append(panel)
+  $('#budgetIndicators').prepend(panel)
 
 }
 

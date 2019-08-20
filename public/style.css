@@ -50,7 +50,7 @@ h4{
   font-size: 1.17em;
 }
 canvas{
-  margin: 0;
+  margin: auto;
 }
 
 noStyle{
@@ -83,7 +83,7 @@ noStyle{
   position: relative;
   overflow: hidden;
   padding: 0;
-  flex-grow: 0 !important;
+  flex-grow: 0.2 !important;
 }
 .bg{
   width: 100%;
@@ -113,6 +113,7 @@ noStyle{
 
 #greeting{
   text-shadow:5px 5px 15px rgba(0,0,0,0.2);
+  margin-bottom: 25px;
 }
 
 .header-row{
