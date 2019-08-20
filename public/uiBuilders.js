@@ -132,10 +132,6 @@ function makeWeekBarChart(dataArray){
   $('#spendingOfWeek').html("$" + getArrayTotal(dataArray).toFixed(2) + " total");
   if(typeof weekBreakdownChart != 'undefined'){weekBreakdownChart.destroy()};
   let ctx = document.getElementById('weekly-amount-breakdown-chart').getContext('2d');
-  let grd = ctx.createLinearGradient(0, 0, 0, 100);
-  grd.addColorStop(0, "#9bc5c3");
-  grd.addColorStop(0.6, "#9bc5c3");
-  grd.addColorStop(1, "rgba(250,250,250,0)");
   weekBreakdownChart = new Chart(ctx, {
       // The type of chart we want to create
       type: 'bar',
@@ -145,7 +141,7 @@ function makeWeekBarChart(dataArray){
           labels: ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
           datasets: [{
               label: 'Spending',
-              backgroundColor: grd,
+              backgroundColor: '#9bc5c3',
               borderColor: '#9bc5c3',
               data: dataArray,
               borderWidth: 1
