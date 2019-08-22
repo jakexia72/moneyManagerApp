@@ -12,6 +12,7 @@ function checkHasBudget(value){
 
 $(document).ready(function() {
 
+
   //Add a new expense to db
   $('#add-expense-form').submit(function(e){
     e.preventDefault();
